@@ -1,22 +1,22 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback } from "react";
 import ReactFlow, {
   ReactFlowProvider,
   addEdge,
   useNodesState,
   useEdgesState,
   Controls,
-} from 'reactflow';
-import 'reactflow/dist/style.css';
+} from "reactflow";
+import "reactflow/dist/style.css";
 
-import Sidebar from './Sidebar';
+import Sidebar from "./Sidebar";
 
-import './index.css';
+import "./index.css";
 
 const initialNodes = [
   {
-    id: '1',
-    type: 'input',
-    data: { label: 'Start' },
+    id: "1",
+    type: "input",
+    data: { label: "Start" },
     position: { x: 250, y: 5 },
   },
 ];
@@ -32,28 +32,24 @@ const DnDFlow = () => {
 
   const onConnect = useCallback(
     (params) => setEdges((eds) => addEdge(params, eds)),
-    [],
+    []
   );
 
   const onDragOver = useCallback((event) => {
     event.preventDefault();
-    event.dataTransfer.dropEffect = 'move';
+    event.dataTransfer.dropEffect = "move";
   }, []);
 
   const onDrop = useCallback(
     (event) => {
       event.preventDefault();
 
-      const type = event.dataTransfer.getData('application/reactflow');
+      const type = event.dataTransfer.getData("application/reactflow");
 
-      // check if the dropped element is valid
-      if (typeof type === 'undefined' || !type) {
+      if (typeof type === "undefined" || !type) {
         return;
       }
 
-      // reactFlowInstance.project was renamed to reactFlowInstance.screenToFlowPosition
-      // and you don't need to subtract the reactFlowBounds.left/top anymore
-      // details: https://reactflow.dev/whats-new/2023-11-10
       const position = reactFlowInstance.screenToFlowPosition({
         x: event.clientX,
         y: event.clientY,
@@ -67,13 +63,23 @@ const DnDFlow = () => {
 
       setNodes((nds) => nds.concat(newNode));
     },
-    [reactFlowInstance],
+    [reactFlowInstance]
   );
+
+
+  let arr=JSON.parse(localStorage.getItem("id"))||[];
+  const handlesave = () => {
+    
+    const id=document.querySelector(".id").innerText;
+    arr.push(id)
+    console.log(arr)
+    localStorage.setItem("id",JSON.stringify(arr));
+  };
 
   return (
     <div className="dndflow">
       <ReactFlowProvider>
-      <Sidebar />
+        <Sidebar />
         <div className="reactflow-wrapper" ref={reactFlowWrapper}>
           <ReactFlow
             nodes={nodes}
@@ -90,14 +96,16 @@ const DnDFlow = () => {
           </ReactFlow>
         </div>
 
-        <div className='inputtag'>
-        <p>Workflow ID:
-            <input type="text"/>
-        </p>
-        <br/>
-        <button className='btntag'>Save Workflow</button>
+        <div className="inputtag">
+          <p>
+            Workflow ID:
+            <span className="id">{Date.now()}</span>
+          </p>
+          <br />
+          <button className="btntag" onClick={handlesave}>
+            Save Workflow
+          </button>
         </div>
-       
       </ReactFlowProvider>
     </div>
   );

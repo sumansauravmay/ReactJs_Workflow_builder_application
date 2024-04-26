@@ -10,7 +10,7 @@ const Navbar = () => {
         </Link>
     
      
-     <Link to="#">
+     <Link to="/upload">
      <h3>DragDrop</h3>
      </Link>
       
