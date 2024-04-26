@@ -5,6 +5,8 @@ import { MdCloudUpload } from "react-icons/md";
 
 
 
+
+
 let allid=JSON.parse(localStorage.getItem("id"));
 
 const Upload = () => {
@@ -17,7 +19,7 @@ const Upload = () => {
     ));
   }
 
-  // useEffect hook to call populateSelect when component mounts
+
   useEffect(() => {
     populateSelect();
   }, []);
@@ -40,13 +42,24 @@ const Upload = () => {
       });
   };
 
+
+const uploadcsv=()=>{
+  
+  let data=document.querySelector("#selectid").value;
+  console.log(data);
+
+
+}
+
+
+
+
   return (
     <div className="drop">
       <Navbar />
-      <div
+      <div 
         style={{
-          // padding: 20,
-          border: "1px dashed",
+          border: "2px dashed grey",
           fontSize: "25px",
           width: "20%",
           marginLeft: "370px",
@@ -69,12 +82,14 @@ const Upload = () => {
 
       <p style={{textAlign:"center"}}>Select Workflow ID 
       
-      <select style={{padding:"5px",marginLeft:"10px",fontWeight:"bold"}}>
+      <select style={{padding:"5px",marginLeft:"10px",fontWeight:"bold"}} id="selectid">
       {/* <option value="">Select an option</option> */}
       {populateSelect()}
     </select>
       </p>
-      <button style={{marginLeft:"800px",padding:"7px",fontWeight:"bold",border:"0px",background:"#D9EAD3"}}>Run Workflow</button>
+      <button style={{marginLeft:"800px",padding:"7px",fontWeight:"bold",border:"0px",background:"#D9EAD3"}}
+      onClick={uploadcsv}
+      >Run Workflow</button>
 
 
       <ul>
