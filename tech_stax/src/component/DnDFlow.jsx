@@ -7,6 +7,7 @@ import ReactFlow, {
   Controls,
 } from "reactflow";
 import "reactflow/dist/style.css";
+import axios from "axios";
 
 import Sidebar from "./Sidebar";
 
@@ -25,6 +26,7 @@ let id = 0;
 const getId = () => `dndnode_${id++}`;
 
 const DnDFlow = () => {
+  const [workflow_id, setWorkflow_id] = useState(Date.now());
   const reactFlowWrapper = useRef(null);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
@@ -66,14 +68,27 @@ const DnDFlow = () => {
     [reactFlowInstance]
   );
 
+  let arr = JSON.parse(localStorage.getItem("id")) || [];
+  const workid = {
+    workflow_id: workflow_id
+  };
 
-  let arr=JSON.parse(localStorage.getItem("id"))||[];
-  const handlesave = () => {
-    
-    const id=document.querySelector(".id").innerText;
-    arr.push(id)
+
+const getData=()=>{
+  return axios.post(`http://localhost:4000/workflow`, workid);
+}
+
+  const handlesave = (e) => {
+    e.preventDefault()
+    getData()
+    .then((res)=>{
+      console.log(res.data.workflow_id)
+      setWorkflow_id(res.data.workflow_id)
+    });
+    arr.push(workflow_id)
     console.log(arr)
     localStorage.setItem("id",JSON.stringify(arr));
+    console.log(workflow_id)
   };
 
   return (
@@ -99,7 +114,7 @@ const DnDFlow = () => {
         <div className="inputtag">
           <p>
             Workflow ID:
-            <span className="id">{Date.now()}</span>
+            <span>{workflow_id}</span>
           </p>
           <br />
           <button className="btntag" onClick={handlesave}>

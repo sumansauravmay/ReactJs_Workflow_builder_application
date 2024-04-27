@@ -2,6 +2,7 @@ import { useState,useEffect } from "react";
 import { parse } from "papaparse";
 import Navbar from "./Navbar";
 import { MdCloudUpload } from "react-icons/md";
+import axios from "axios";
 
 
 
@@ -14,11 +15,17 @@ const Upload = () => {
   const [arr,setArr]=useState(allid);
 
   function populateSelect() {
+    // axios.get(`http://localhost:4000/workflowid`)
+    // .then((res)=>{
+    //   console.log(res.data);
+    //   setArr(res.data);
+
+
+    // })
     return arr.map((item, index) => (
       <option key={index} value={item}>{item}</option>
     ));
   }
-
 
   useEffect(() => {
     populateSelect();
@@ -37,6 +44,7 @@ const Upload = () => {
       .forEach(async (file) => {
         const text = await file.text();
         const result = parse(text, { headers: true });
+        console.log(result.data)
 
         setContacts((existing) => [...existing, ...result.data]);
       });
@@ -83,7 +91,7 @@ const uploadcsv=()=>{
       <p style={{textAlign:"center"}}>Select Workflow ID 
       
       <select style={{padding:"5px",marginLeft:"10px",fontWeight:"bold"}} id="selectid">
-      {/* <option value="">Select an option</option> */}
+      {/* <option value="">Select an option</option>  */}
       {populateSelect()}
     </select>
       </p>
