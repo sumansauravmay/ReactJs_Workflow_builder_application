@@ -13,4 +13,17 @@ workflowdata.post("/workflow", async (req, res) => {
   }
 });
 
+
+workflowdata.get("/workflowid", async(req,res)=>{
+try{
+let data=await Workflowmodel.find();
+res.send(data);
+}
+catch(err){
+    console.log(err)
+}
+})
+
+
+
 module.exports = { workflowdata };
