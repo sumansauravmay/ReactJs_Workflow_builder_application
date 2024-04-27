@@ -20,7 +20,7 @@ csvdata.post("/upload", upload.single("csvFile"), async (req, res) => {
     const jsonArray = [];
 
     fs.createReadStream(csvFilePath)
-      .pipe(csvParser())
+      .pipe(csvParser({header:true}))
       .on("data", (data) => jsonArray.push(data))
       .on("end", async () => {
         const dataToSave = {
