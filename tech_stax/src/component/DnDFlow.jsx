@@ -68,7 +68,6 @@ const DnDFlow = () => {
     [reactFlowInstance]
   );
 
-  let arr = JSON.parse(localStorage.getItem("id")) || [];
   const workid = {
     workflow_id: workflow_id
   };
@@ -85,10 +84,6 @@ const getData=()=>{
       console.log(res.data.workflow_id)
       setWorkflow_id(res.data.workflow_id)
     });
-    arr.push(workflow_id)
-    console.log(arr)
-    localStorage.setItem("id",JSON.stringify(arr));
-    console.log(workflow_id)
   };
 
   return (

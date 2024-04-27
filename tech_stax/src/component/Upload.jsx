@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { parse } from "papaparse";
 import Navbar from "./Navbar";
 import { MdCloudUpload } from "react-icons/md";
@@ -6,37 +6,37 @@ import axios from "axios";
 
 
 
-
-
-let allid=JSON.parse(localStorage.getItem("id"));
-
 const Upload = () => {
   const [contacts, setContacts] = useState([]);
-  const [arr,setArr]=useState(allid);
+  const [arr, setArr] = useState([]);
+
+
+  const getData=()=>{
+    return axios.get(`http://localhost:4000/workflowid`).then((res) => {
+      console.log(res.data);
+      setArr(res.data);
+    });
+  }
+  
 
   function populateSelect() {
-    // axios.get(`http://localhost:4000/workflowid`)
-    // .then((res)=>{
-    //   console.log(res.data);
-    //   setArr(res.data);
 
-
-    // })
     return arr.map((item, index) => (
-      <option key={index} value={item}>{item}</option>
+      <option key={index} value={item.workflow_id}>
+        {item.workflow_id}
+      </option>
     ));
   }
 
   useEffect(() => {
+    getData();
     populateSelect();
   }, []);
 
 
-
-
-
   const handledropfile = (e) => {
     e.preventDefault();
+    let workflow_id = document.querySelector(".selectid").value;
 
     console.log(e.dataTransfer.files);
     Array.from(e.dataTransfer.files)
@@ -44,28 +44,34 @@ const Upload = () => {
       .forEach(async (file) => {
         const text = await file.text();
         const result = parse(text, { headers: true });
-        console.log(result.data)
-
-        setContacts((existing) => [...existing, ...result.data]);
+        console.log(result.data);
+        setContacts((existing) => [...existing, ...result.data, workflow_id]);
       });
   };
 
 
-const uploadcsv=()=>{
+  const uploadcsv = () => {
+
+    return axios.post("localhost:4000/upload")
+
+    let data = document.querySelector(".selectid").value;
+    console.log(data);
+
+
+
+
+
+
+  };
+
   
-  let data=document.querySelector("#selectid").value;
-  console.log(data);
-
-
-}
-
 
 
 
   return (
     <div className="drop">
       <Navbar />
-      <div 
+      <div
         style={{
           border: "2px dashed grey",
           fontSize: "25px",
@@ -88,17 +94,29 @@ const uploadcsv=()=>{
         </p>
       </div>
 
-      <p style={{textAlign:"center"}}>Select Workflow ID 
-      
-      <select style={{padding:"5px",marginLeft:"10px",fontWeight:"bold"}} id="selectid">
-      {/* <option value="">Select an option</option>  */}
-      {populateSelect()}
-    </select>
+      <p style={{ textAlign: "center" }}>
+        Select Workflow ID
+        <select
+          style={{ padding: "5px", marginLeft: "10px", fontWeight: "bold" }}
+          className="selectid"
+         
+        >
+          {/* <option value="">Select an option</option>  */}
+          {populateSelect()}
+        </select>
       </p>
-      <button style={{marginLeft:"800px",padding:"7px",fontWeight:"bold",border:"0px",background:"#D9EAD3"}}
-      onClick={uploadcsv}
-      >Run Workflow</button>
-
+      <button
+        style={{
+          marginLeft: "800px",
+          padding: "7px",
+          fontWeight: "bold",
+          border: "0px",
+          background: "#D9EAD3",
+        }}
+        onClick={uploadcsv}
+      >
+        Run Workflow
+      </button>
 
       <ul>
         {contacts.map((item) => (
