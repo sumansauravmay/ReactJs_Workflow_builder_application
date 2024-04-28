@@ -69,20 +69,21 @@ const DnDFlow = () => {
   );
 
   const workid = {
-    workflow_id: workflow_id
+    workflow_id: workflow_id,
   };
 
-
-const getData=()=>{
-  return axios.post(`http://localhost:4000/workflow`, workid);
-}
+  const getData = () => {
+    return axios.post(
+      `https://backenddeploy-techstax.onrender.com/workflow`,
+      workid
+    );
+  };
 
   const handlesave = (e) => {
-    e.preventDefault()
-    getData()
-    .then((res)=>{
-      console.log(res.data.workflow_id)
-      setWorkflow_id(res.data.workflow_id)
+    e.preventDefault();
+    getData().then((res) => {
+      console.log(res.data.workflow_id);
+      setWorkflow_id(res.data.workflow_id);
     });
   };
 

@@ -4,23 +4,18 @@ import Navbar from "./Navbar";
 import { MdCloudUpload } from "react-icons/md";
 import axios from "axios";
 
-
-
 const Upload = () => {
   const [contacts, setContacts] = useState([]);
   const [arr, setArr] = useState([]);
 
-
-  const getData=()=>{
-    return axios.get(`http://localhost:4000/workflowid`).then((res) => {
+  const getData = () => {
+    return axios.get(`https://backenddeploy-techstax.onrender.com/workflowid`).then((res) => {
       console.log(res.data);
       setArr(res.data);
     });
-  }
-  
+  };
 
   function populateSelect() {
-
     return arr.map((item, index) => (
       <option key={index} value={item.workflow_id}>
         {item.workflow_id}
@@ -33,40 +28,30 @@ const Upload = () => {
     populateSelect();
   }, []);
 
+  let file;
 
   const handledropfile = (e) => {
     e.preventDefault();
-    let workflow_id = document.querySelector(".selectid").value;
-
+    file = e.dataTransfer.files;
     console.log(e.dataTransfer.files);
-    Array.from(e.dataTransfer.files)
-      .filter((file) => file.type === "text/csv")
-      .forEach(async (file) => {
-        const text = await file.text();
-        const result = parse(text, { headers: true });
-        console.log(result.data);
-        setContacts((existing) => [...existing, ...result.data, workflow_id]);
-      });
+    Array.from(e.dataTransfer.files).filter((file) => file.type === "text/csv");
+    // .forEach(async (file) => {
+    //   const text = await file.text();
+    //   const result = parse(text, { headers: true });
+    //   console.log(result.data);
+    //   setContacts((existing) => [...existing, ...result.data, workflow_id]);
+    // });
   };
 
-
-  const uploadcsv = () => {
-
-    return axios.post("localhost:4000/upload")
-
-    let data = document.querySelector(".selectid").value;
-    console.log(data);
-
-
-
-
-
-
+  const uploadcsv = (e) => {
+    let workflow_id = document.querySelector(".selectid").value;
+    Array.from(file).forEach(async (file) => {
+      const text = await file.text();
+      const result = parse(text, { headers: true });
+      console.log(result.data);
+      setContacts((existing) => [...existing, ...result.data, workflow_id]);
+    });
   };
-
-  
-
-
 
   return (
     <div className="drop">
@@ -99,12 +84,11 @@ const Upload = () => {
         <select
           style={{ padding: "5px", marginLeft: "10px", fontWeight: "bold" }}
           className="selectid"
-         
         >
-          {/* <option value="">Select an option</option>  */}
           {populateSelect()}
         </select>
       </p>
+
       <button
         style={{
           marginLeft: "800px",
