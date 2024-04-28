@@ -13,18 +13,21 @@ csvdata.post("/upload", upload.single("csvFile"), async (req, res) => {
       console.log(req.body);
       return res.status(400).send("No file uploaded.");
     }
-    const id = req.body.workflow_id;
-    console.log(id)
+    const workflow_id = req.body.workflow_id;
+    console.log(workflow_id)
 
     const csvFilePath = req.file.path;
     const jsonArray = [];
 
     fs.createReadStream(csvFilePath)
       .pipe(csvParser({header:true}))
-      .on("data", (data) => jsonArray.push(data))
+      .on("data", (data) =>{
+        jsonArray.push(data)
+       
+      })
       .on("end", async () => {
         const dataToSave = {
-          id: id,
+          workflow_id: workflow_id,
           csvdat: jsonArray,
         };
 
