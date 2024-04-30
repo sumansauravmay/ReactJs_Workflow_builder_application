@@ -72,7 +72,7 @@ Here users can make the workflow and a random id will be generated.
 
 <h3 align="center"><a href="https://drive.google.com/file/d/1ZAuTjjZEOuUywhck9jXhX8Ke4wiQh9ct/view?usp=sharing"><strong>Video Link»</strong></a></h3>
 
-![Video Link]_(https://drive.google.com/file/d/1ZAuTjjZEOuUywhck9jXhX8Ke4wiQh9ct/view?usp=sharing)
+(https://drive.google.com/file/d/1ZAuTjjZEOuUywhck9jXhX8Ke4wiQh9ct/view?usp=sharing)
 
 ## Run Locally
 
