@@ -65,6 +65,13 @@ Here users can make the workflow and a random id will be generated.
 
 ![Drag And Drop](https://i.postimg.cc/RFxrYCCD/draganddrop.jpg)
 
+### Output -
+
+![Drag and drop page output]_(https://i.postimg.cc/QMgWKdyg/output.jpg)
+
+### Video Link -
+
+![Video Link]_(https://drive.google.com/file/d/1ZAuTjjZEOuUywhck9jXhX8Ke4wiQh9ct/view?usp=sharing)
 
 ## Run Locally
 
